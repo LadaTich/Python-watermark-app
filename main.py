@@ -1,20 +1,9 @@
 from tkinter import *
 from tkinter import filedialog, simpledialog, messagebox
-from tkinter.filedialog import asksaveasfile 
+from tkinter.filedialog import asksaveasfile
 
 from PIL import Image, ImageTk, ImageDraw, ImageFont
 from PIL import *
-
-window = Tk()
-window.config(width=700, height=500, padx=20, pady=20)
-window.title("Watermark app")
-window.iconbitmap("icon.ico")
-
-logo = PhotoImage(file="logo.png")
-logo_label = Label(image=logo)
-logo_label.grid(row=0, column=0, columnspan=3)
-
-
 
 def image_open():
     global FILE_PATH
@@ -40,7 +29,9 @@ def watermark_add():
         img = Image.open(FILE_PATH).convert("RGBA")
         txt = Image.new('RGBA', img.size, (255,255,255,0))
 
-        font = ImageFont.truetype("arial.ttf", 50)
+        font_size = img.size[0] * 0.2045833333
+
+        font = ImageFont.truetype("arial.ttf", font_size)
         d = ImageDraw.Draw(txt)
 
         position = ((img.size[0] / 2), (img.size[1] / 2))
@@ -73,8 +64,9 @@ def save():
     try:
         img = Image.open(FILE_PATH).convert("RGBA")
         txt = Image.new('RGBA', img.size, (255,255,255,0))
-        
-        font = ImageFont.truetype("arial.ttf", 100)
+
+        font_size = img.size[0] * 0.2045833333
+        font = ImageFont.truetype("arial.ttf", font_size)
         d = ImageDraw.Draw(txt)
 
         position = ((img.size[0] / 2), (img.size[1] / 2))
@@ -106,8 +98,18 @@ def save():
     except NameError:
         messagebox.showwarning("Watermark app", "You must select a file first!")
 
+window = Tk()
+window.config(width=700, height=500, padx=20, pady=20)
+window.title("Watermark app")
+window.iconbitmap("icon.ico")
 
-image_label = Label()
+logo = PhotoImage(file="logo.png")
+logo_label = Label(image=logo)
+logo_label.grid(row=0, column=0, columnspan=3)
+
+
+upload_img = PhotoImage(file="upload_image.png")
+image_label = Label(image=upload_img)
 image_label.grid(row=1, column=0, columnspan=3, padx=5, pady=5)
     
 
